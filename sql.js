@@ -28,7 +28,28 @@ init = function() {
       console.error("Unable to connect to the database: ", err);
     });
 
-    Article.sync();
+  Article.sync({force: true}).then(() => {
+    Article.create({
+      title: "My first article",
+      content:
+        "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur laoreet viverra erat at laoreet. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Maecenas vitae tempus enim. Vestibulum ac enim varius, euismod libero eu, elementum odio. Duis sapien leo, venenatis vitae condimentum facilisis, lobortis quis enim. Vivamus aliquam lorem sit amet tellus accumsan, eu luctus ipsum gravida. Suspendisse tellus magna, consectetur id ultricies et, rutrum rutrum lacus. Quisque vel porta nibh. Etiam vulputate magna nec vulputate pharetra. Proin facilisis aliquam sapien quis porttitor. Nam lacinia quam vitae augue rhoncus mollis. Integer viverra condimentum lorem. Integer id massa at ex pellentesque finibus.</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur laoreet viverra erat at laoreet. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Maecenas vitae tempus enim. Vestibulum ac enim varius, euismod libero eu, elementum odio. Duis sapien leo, venenatis vitae condimentum facilisis, lobortis quis enim. Vivamus aliquam lorem sit amet tellus accumsan, eu luctus ipsum gravida. Suspendisse tellus magna, consectetur id ultricies et, rutrum rutrum lacus. Quisque vel porta nibh. Etiam vulputate magna nec vulputate pharetra. Proin facilisis aliquam sapien quis porttitor. Nam lacinia quam vitae augue rhoncus mollis. Integer viverra condimentum lorem. Integer id massa at ex pellentesque finibus.</p>",
+      description: "This is my first article! It's great. Please read it. :)",
+      key: "my-first-article",
+      date: new Date(),
+      imageUrl: "http://angular.io/assets/images/logos/angular/angular.png"
+    });
+
+    Article.create({
+      title: "The second article",
+      content:
+        "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur laoreet viverra erat at laoreet. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Maecenas vitae tempus enim. Vestibulum ac enim varius, euismod libero eu, elementum odio. Duis sapien leo, venenatis vitae condimentum facilisis, lobortis quis enim. Vivamus aliquam lorem sit amet tellus accumsan, eu luctus ipsum gravida. Suspendisse tellus magna, consectetur id ultricies et, rutrum rutrum lacus. Quisque vel porta nibh. Etiam vulputate magna nec vulputate pharetra. Proin facilisis aliquam sapien quis porttitor. Nam lacinia quam vitae augue rhoncus mollis. Integer viverra condimentum lorem. Integer id massa at ex pellentesque finibus.</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur laoreet viverra erat at laoreet. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Maecenas vitae tempus enim. Vestibulum ac enim varius, euismod libero eu, elementum odio. Duis sapien leo, venenatis vitae condimentum facilisis, lobortis quis enim. Vivamus aliquam lorem sit amet tellus accumsan, eu luctus ipsum gravida. Suspendisse tellus magna, consectetur id ultricies et, rutrum rutrum lacus. Quisque vel porta nibh. Etiam vulputate magna nec vulputate pharetra. Proin facilisis aliquam sapien quis porttitor. Nam lacinia quam vitae augue rhoncus mollis. Integer viverra condimentum lorem. Integer id massa at ex pellentesque finibus.</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur laoreet viverra erat at laoreet. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Maecenas vitae tempus enim. Vestibulum ac enim varius, euismod libero eu, elementum odio. Duis sapien leo, venenatis vitae condimentum facilisis, lobortis quis enim. Vivamus aliquam lorem sit amet tellus accumsan, eu luctus ipsum gravida. Suspendisse tellus magna, consectetur id ultricies et, rutrum rutrum lacus. Quisque vel porta nibh. Etiam vulputate magna nec vulputate pharetra. Proin facilisis aliquam sapien quis porttitor. Nam lacinia quam vitae augue rhoncus mollis. Integer viverra condimentum lorem. Integer id massa at ex pellentesque finibus.</p>",
+      description: "Also a great article!",
+      key: "the-second-article",
+      date: new Date(),
+      imageUrl:
+        "http://angular.io/assets/images/logos/angular/angular_solidBlack.png"
+    });
+  });
 };
 
 module.exports.init = init;
