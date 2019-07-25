@@ -1,8 +1,10 @@
 const ARTICLES = require("./mock-articles");
 
-module.exports = function(app) {
+module.exports = function(app, sql) {
   app.get("/articles", function(request, response) {
-    response.send(ARTICLES);
+    sql.getArticles(function(result) {
+      response.send(result);
+    }); 
   });
 
   app.get("/articles/:key", function(request, response) {

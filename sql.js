@@ -28,7 +28,7 @@ init = function() {
       console.error("Unable to connect to the database: ", err);
     });
 
-  Article.sync({force: true}).then(() => {
+  Article.sync({ force: true }).then(() => {
     Article.create({
       title: "My first article",
       content:
@@ -52,4 +52,9 @@ init = function() {
   });
 };
 
+getArticles = function(callback) {
+  Article.findAll({ order: sequelize.literal("date DESC")}).then(articles => callback(articles));
+};
+
 module.exports.init = init;
+module.exports.getArticles = getArticles;
