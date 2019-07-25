@@ -53,8 +53,17 @@ init = function() {
 };
 
 getArticles = function(callback) {
-  Article.findAll({ order: sequelize.literal("date DESC")}).then(articles => callback(articles));
+  Article.findAll({ order: sequelize.literal("date DESC") }).then(articles =>
+    callback(articles)
+  );
+};
+
+getArticleByKey = function(options, callback) {
+  Article.findOne({ where: { key: options.key } }).then(article =>
+    callback(article)
+  );
 };
 
 module.exports.init = init;
 module.exports.getArticles = getArticles;
+module.exports.getArticleByKey = getArticleByKey;
