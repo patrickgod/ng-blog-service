@@ -16,7 +16,8 @@ const Article = sequelize.define("article", {
   content: { type: Sequelize.TEXT },
   description: { type: Sequelize.TEXT },
   imageUrl: { type: Sequelize.STRING },
-  viewCount: { type: Sequelize.INTEGER }
+  viewCount: { type: Sequelize.INTEGER },
+  published: { type: Sequelize.BOOLEAN }
 });
 
 init = function() {
@@ -37,7 +38,8 @@ init = function() {
       description: "This is my first article! It's great. Please read it. :)",
       key: "my-first-article",
       date: new Date(),
-      imageUrl: "http://angular.io/assets/images/logos/angular/angular.png"
+      imageUrl: "http://angular.io/assets/images/logos/angular/angular.png",
+      published: true
     });
 
     Article.create({
@@ -48,26 +50,30 @@ init = function() {
       key: "the-second-article",
       date: new Date(),
       imageUrl:
-        "http://angular.io/assets/images/logos/angular/angular_solidBlack.png"
+        "http://angular.io/assets/images/logos/angular/angular_solidBlack.png",
+      published: false
     });
   });
 };
 
 getArticles = function(callback) {
-  Article.findAll({ order: sequelize.literal("date DESC") }).then(articles =>
-    callback(articles)
-  );
+  Article.findAll({
+    order: sequelize.literal("date DESC"),
+    where: { published: true }
+  }).then(articles => callback(articles));
 };
 
 getArticleByKey = function(options, callback) {
-  Article.findOne({ where: { key: options.key } }).then(article => {
-    if (article != null) {
-      article.update({
-        viewCount: ++article.viewCount
-      })
+  Article.findOne({ where: { key: options.key, published: true } }).then(
+    article => {
+      if (article != null) {
+        article.update({
+          viewCount: ++article.viewCount
+        });
+      }
+      callback(article);
     }
-    callback(article);
-  });
+  );
 };
 
 getDashboardArticles = function(callback) {
