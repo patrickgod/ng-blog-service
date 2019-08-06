@@ -12,4 +12,10 @@ module.exports = function(app, sql) {
       response.send(article);
     });
   });
+
+  app.get("/dashboard/article/:key", function(request, response) {
+    sql.getDashboardArticleByKey(request.params.key, result =>
+      response.send(result)
+    );
+  });
 };

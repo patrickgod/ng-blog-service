@@ -93,8 +93,13 @@ updateArticlePublishState = function(request, callback) {
   });
 };
 
+getDashboardArticleByKey = function(key, callback) {
+  Article.findOne({ where: { key: key } }).then(article => callback(article));
+};
+
 module.exports.init = init;
 module.exports.getArticles = getArticles;
 module.exports.getArticleByKey = getArticleByKey;
 module.exports.getDashboardArticles = getDashboardArticles;
 module.exports.updateArticlePublishState = updateArticlePublishState;
+module.exports.getDashboardArticleByKey = getDashboardArticleByKey;
