@@ -18,4 +18,10 @@ module.exports = function(app, sql) {
       response.send(result)
     );
   });
+
+  app.put("/dashboard/article", function(request, response) {
+    sql.updateArticle(request.body, function(result) {
+      response.send(result);
+    });
+  });
 };

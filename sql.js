@@ -97,9 +97,24 @@ getDashboardArticleByKey = function(key, callback) {
   Article.findOne({ where: { key: key } }).then(article => callback(article));
 };
 
+updateArticle = function(request, callback) {
+  Article.findOne({ where: { id: request.id } }).then(function(article) {
+    article.update({
+      title: request.title,
+      key: request.key,
+      date: request.date,
+      imageUrl: request.imageUrl,
+      description: request.description,
+      content: request.content
+    });
+    callback(article);
+  });
+};
+
 module.exports.init = init;
 module.exports.getArticles = getArticles;
 module.exports.getArticleByKey = getArticleByKey;
 module.exports.getDashboardArticles = getDashboardArticles;
 module.exports.updateArticlePublishState = updateArticlePublishState;
 module.exports.getDashboardArticleByKey = getDashboardArticleByKey;
+module.exports.updateArticle = updateArticle;
