@@ -9,6 +9,12 @@ const sequelize = new Sequelize("ngblog", "root", "123456", {
   }
 });
 
+const User = sequelize.define("user", {
+  name: { type: Sequelize.STRING, allowNull: false },
+  password: { type: Sequelize.STRING, allowNull: false },
+  salt: { type: Sequelize.STRING, allowNull: false }
+});
+
 const Article = sequelize.define("article", {
   title: { type: Sequelize.STRING },
   key: { type: Sequelize.STRING },
@@ -54,6 +60,8 @@ init = function() {
       published: false
     });
   });
+
+  User.sync();
 };
 
 getArticles = function(callback) {
