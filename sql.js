@@ -1,4 +1,5 @@
 const Sequelize = require("sequelize");
+const crypto = require("crypto");
 
 const sequelize = new Sequelize("ngblog", "root", "123456", {
   host: "localhost",
@@ -148,6 +149,27 @@ addUser = function(user, callback) {
   }).then(callback(true));
 };
 
+login = function(request, callback) {
+  User.findOne({
+    where: {
+      name: request.name
+    }
+  }).then(function(user) {
+    if (user !== null) {
+      var passwordHash = crypto
+        .pbkdf2Sync(request.password, user.salt, 1000, 64, "sha512")
+        .toString("hex");
+
+      if (passwordHash === user.password) {
+        callback(true);
+        return;
+      }
+    }
+
+    callback(false);
+  });
+};
+
 module.exports.init = init;
 module.exports.getArticles = getArticles;
 module.exports.getArticleByKey = getArticleByKey;
@@ -158,3 +180,4 @@ module.exports.updateArticle = updateArticle;
 module.exports.deleteArticle = deleteArticle;
 module.exports.createArticle = createArticle;
 module.exports.addUser = addUser;
+module.exports.login = login;

@@ -14,4 +14,13 @@ module.exports = function(app, sql) {
       response.send(result);
     });
   });
+
+  app.post("/user/login", function(request, response) {
+    const name = request.body.name;
+    const password = request.body.password;
+
+    sql.login({ name, password }, result => {
+      response.send(result);
+    });
+  });
 };
