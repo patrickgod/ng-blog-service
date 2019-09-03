@@ -140,6 +140,14 @@ createArticle = function(request, callback) {
   }).then(article => callback(article));
 };
 
+addUser = function(user, callback) {
+  User.create({
+    name: user.name.toLowerCase(),
+    password: user.password,
+    salt: user.salt
+  }).then(callback(true));
+};
+
 module.exports.init = init;
 module.exports.getArticles = getArticles;
 module.exports.getArticleByKey = getArticleByKey;
@@ -149,3 +157,4 @@ module.exports.getDashboardArticleByKey = getDashboardArticleByKey;
 module.exports.updateArticle = updateArticle;
 module.exports.deleteArticle = deleteArticle;
 module.exports.createArticle = createArticle;
+module.exports.addUser = addUser;
