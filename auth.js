@@ -1,4 +1,5 @@
 module.exports = function(app, sql) {
+  const jwtUtil = require("./jwtUtil");
   const crypto = require("crypto");
 
   app.post("/user/register", function(request, response) {
@@ -20,7 +21,12 @@ module.exports = function(app, sql) {
     const password = request.body.password;
 
     sql.login({ name, password }, result => {
-      response.send(result);
+      if(!result) {
+        response.send(401);
+      } else {
+        var token = jwtUtil.signJwt(name);
+        response.send(token);
+      }
     });
   });
 };
