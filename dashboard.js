@@ -1,17 +1,14 @@
-const jwtUtil = require("./jwtUtil");
+const isAuthenticated = require("./isAuthenticated");
 
 module.exports = function(app, sql) {
-  app.get("/dashboard/overview", function(request, response) {
-    const token = request.get("Authorization");
-    const verified = jwtUtil.verifyJwt(token);
-    if (!verified) {
-      response.sendStatus(401);
-    } else {
-      sql.getDashboardArticles(result => response.send(result));
-    }
+  app.get("/dashboard/overview", isAuthenticated, function(request, response) {
+    sql.getDashboardArticles(result => response.send(result));
   });
 
-  app.post("/dashboard/article/publish", function(request, response) {
+  app.post("/dashboard/article/publish", isAuthenticated, function(
+    request,
+    response
+  ) {
     const id = request.body.id;
     const published = request.body.published;
     sql.updateArticlePublishState({ id: id, published: published }, function(
@@ -21,19 +18,25 @@ module.exports = function(app, sql) {
     });
   });
 
-  app.get("/dashboard/article/:key", function(request, response) {
+  app.get("/dashboard/article/:key", isAuthenticated, function(
+    request,
+    response
+  ) {
     sql.getDashboardArticleByKey(request.params.key, result =>
       response.send(result)
     );
   });
 
-  app.put("/dashboard/article", function(request, response) {
+  app.put("/dashboard/article", isAuthenticated, function(request, response) {
     sql.updateArticle(request.body, function(result) {
       response.send(result);
     });
   });
 
-  app.delete("/dashboard/article/:id", function(request, response) {
+  app.delete("/dashboard/article/:id", isAuthenticated, function(
+    request,
+    response
+  ) {
     sql.deleteArticle(request.params.id, result => {
       if (result != null) {
         response.send(result);
@@ -43,7 +46,7 @@ module.exports = function(app, sql) {
     });
   });
 
-  app.post("/dashboard/article", function(request, response) {
+  app.post("/dashboard/article", isAuthenticated, function(request, response) {
     sql.createArticle(request.body, function(result) {
       response.send(result);
     });
