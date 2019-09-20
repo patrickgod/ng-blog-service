@@ -29,4 +29,9 @@ module.exports = function(app, sql) {
       }
     });
   });
+
+  app.post("/user/auth", function(request, response) {
+    var valid = jwtUtil.verifyJwt(request.body.token);
+    response.send(valid != false);
+  })
 };
