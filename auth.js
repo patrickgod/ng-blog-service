@@ -21,11 +21,11 @@ module.exports = function(app, sql) {
     const password = request.body.password;
 
     sql.login({ name, password }, result => {
-      if(!result) {
+      if (!result) {
         response.send(401);
       } else {
         var token = jwtUtil.signJwt(name);
-        response.send(token);
+        response.send({ token });
       }
     });
   });
